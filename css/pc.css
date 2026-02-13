@@ -579,6 +579,15 @@ button:active {
 		inset 0 2px 0 rgba(255,255,255,.15);
 }
 
+.pc-slot.multi-selected{
+	background-color: color-mix(in srgb, var(--bg-panel) 70%, #ff4d4d);
+	border-color:#ff2a2a;
+	border-width:3px;
+	box-shadow:
+		0 0 15px rgba(255,50,50,.75),
+		inset 0 0 12px rgba(255,0,0,.45);
+}
+
 @keyframes fadeIn {
 	from {
 		opacity: 0;
