@@ -16,7 +16,7 @@ const CRITERIA_OPTIONS = {
 	[CRITERIA_TYPES.NATURE]: { label: 'Nature', values: BALANCE.NATURES },
 	[CRITERIA_TYPES.GENDER]: { label: 'Gender', values: ['Male', 'Female', 'Genderless'] },
 	[CRITERIA_TYPES.IV_STAT]: { label: 'IV Stat', values: ['HP', 'ATK', 'DEF', 'SP.ATK', 'SP.DEF', 'SPD'] },
-	[CRITERIA_TYPES.RARITY]: { label: 'Rarity', values: ['Common', 'Uncommon', 'Rare', 'Special'] },
+	[CRITERIA_TYPES.RARITY]: { label: 'Rarity', values: ['Common', 'Uncommon', 'Rare', 'Special', 'Legendary'] },
 	[CRITERIA_TYPES.PERFECT_IV_COUNT]: { label: 'Perfect IV Count', numeric: true },
 	[CRITERIA_TYPES.SPECIES]: { label: 'Species', dynamic: true },
 	[CRITERIA_TYPES.RETRO_SPRITE]: { label: 'Retro Sprite', dynamic: true }
@@ -561,7 +561,7 @@ function matchesCriterion(pokemon, criterion) {
 			return ivMatch;
 
 		case CRITERIA_TYPES.RARITY:
-			const rarityMap = { 'Common': 'common', 'Uncommon': 'uncommon', 'Rare': 'rare', 'Special': 'special' };
+			const rarityMap = { 'Common': 'common', 'Uncommon': 'uncommon', 'Rare': 'rare', 'Special': 'special', 'Legendary': 'legendary'};
 			const pokemonData = getPokemonById(pokemon.id);
 			const pokemonRarity = pokemonData ? pokemonData.rarity : undefined;
 			const rarityMatch = pokemonRarity === rarityMap[criterion.value];
