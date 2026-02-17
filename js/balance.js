@@ -9,7 +9,10 @@ const BALANCE = {
 		common: 50,
 		uncommon: 30,
 		rare: 10,
-		// Add new rarities here: mythical: 5, legendary: 2, etc.
+		special: 1,
+		event: 1,
+		novelty: 1,
+		legendary: 1
 	},
 
 	SHINY_ODDS: 8192,           

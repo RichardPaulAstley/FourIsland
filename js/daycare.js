@@ -141,7 +141,10 @@ function getRarityValue(pokemon) {
 		'common': 1,
 		'uncommon': 2,
 		'rare': 3,
-		'special': 4
+		'special': 4,
+		'event': 5,
+		'novelty': 6,
+		'legendary': 7,
 	};
 	
 	return rarityMap[species.rarity] || 1;
@@ -155,7 +158,7 @@ function getEggTimerDuration(pokemon1, pokemon2) {
 	const avgRarity = Math.ceil((rarity1 + rarity2) / 2);
 
 	// Map to rarity key
-	const rarityKeys = ['common', 'uncommon', 'rare', 'special'];
+	const rarityKeys = ['common', 'uncommon', 'rare', 'special', 'event', 'novelty', 'legendary'];
 	const rarityKey = rarityKeys[Math.min(avgRarity - 1, 3)];
 
 	let baseTimer = DAYCARE_BALANCE.EGG_TIMERS[rarityKey];

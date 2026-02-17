@@ -6,7 +6,10 @@ const DAYCARE_BALANCE = {
 		common: 30000,      // 30 seconds
 		uncommon: 45000,    // 45 seconds
 		rare: 60000,        // 60 seconds
-		special: 120000     // 120 seconds
+		special: 120000,    // 120 seconds
+		legendary: 120000,  // 120 seconds
+		event: 120000,      // 120 seconds
+		novelty: 120000,    // 120 seconds
 	},
 
 	// Maximum eggs player can have at once
