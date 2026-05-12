@@ -66,9 +66,6 @@ function toggleMultiSelect(){
 	document.getElementById("releaseSelectedBtn").style.display =
 		pcState.multiSelectMode ? "inline-block" : "none";
 
-	document.getElementById("multiSelectToggle")
-		.classList.toggle("multi-active", pcState.multiSelectMode);
-
 	renderPCGrid();
 }
 
