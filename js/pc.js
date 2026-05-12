@@ -3,6 +3,8 @@ let pcState = {
 	selectedSlotIndex: null,
 	selectedPokemon: null,
 	viewingPokemonIndex: null, // Track which pokemon is currently being viewed in modal
+	multiSelectMode: false,
+	multiSelected: new Set(),
 };
 
 // Get Pokemon sprite based on shiny status and retro sprite
@@ -57,6 +59,48 @@ function swapPokemon(index1, index2) {
 	return true;
 }
 
+function toggleMultiSelect(){
+	pcState.multiSelectMode = !pcState.multiSelectMode;
+	pcState.multiSelected.clear();
+
+	document.getElementById("releaseSelectedBtn").style.display =
+		pcState.multiSelectMode ? "inline-block" : "none";
+
+	renderPCGrid();
+}
+
+function toggleSlotSelection(index, element){
+	if(pcState.multiSelected.has(index)){
+		pcState.multiSelected.delete(index);
+		element.classList.remove("multi-selected");
+	}else{
+		pcState.multiSelected.add(index);
+		element.classList.add("multi-selected");
+	}
+}
+
+function releaseSelectedPokemon(){
+	if(pcState.multiSelected.size === 0){
+		alert("No Pokémon selected.");
+		return;
+	}
+
+	const confirmRelease = confirm(`Release ${pcState.multiSelected.size} Pokémon? This cannot be undone.`);
+	if(!confirmRelease) return;
+
+	const pc = getPC();
+	const daycare = getDaycare();
+
+	pcState.multiSelected.forEach(i=>{
+		if(daycare.breeders.includes(i)) return;
+		pc[i] = null;
+	});
+
+	saveGameData();
+	pcState.multiSelected.clear();
+	renderPCGrid();
+}
+
 // Render the PC grid with all Pokemon
 function renderPCGrid() {
 	// Load fresh data directly from localStorage
@@ -106,7 +150,9 @@ function renderPCGrid() {
 			const slot = document.createElement('div');
 			slot.className = 'pc-slot';
 			slot.dataset.index = i;
-
+			if(pcState.multiSelected.has(i)){
+				slot.classList.add("multi-selected");
+			}
 			const pokemon = pc[i];
 
 			if (pokemon !== null && pokemon !== undefined) {
@@ -139,6 +185,10 @@ function renderPCGrid() {
 
 				// Regular click to open details
 				slot.addEventListener('click', (e) => {
+					if(pcState.multiSelectMode){
+						toggleSlotSelection(i, slot);
+						return;
+					}
 					if (e.ctrlKey) {
 						selectSlotForSwap(i, slot);
 					} else if (pcState.selectedSlotIndex !== null && pcState.selectedSlotIndex !== i) {
@@ -161,6 +211,7 @@ function renderPCGrid() {
 
 				// Click on empty slot to swap if one is selected
 				slot.addEventListener('click', (e) => {
+					if(pcState.multiSelectMode) return;
 					if (pcState.selectedSlotIndex !== null) {
 						swapPokemon(pcState.selectedSlotIndex, i);
 					} else if (e.ctrlKey) {
@@ -345,6 +396,11 @@ function closeModal() {
 			closeModal();
 		}
 	});
+
+	document.getElementById("multiSelectToggle")
+			.addEventListener("click", toggleMultiSelect);
+	document.getElementById("releaseSelectedBtn")
+			.addEventListener("click", releaseSelectedPokemon);
 });
 
 // Put pokemon in daycare (select as parent) or remove if already there
