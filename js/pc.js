@@ -160,7 +160,8 @@ function renderPCGrid() {
 
 				const img = document.createElement('img');
 				img.src = spriteUrl;
-				img.alt = pokemon.name;
+				const basePokemon = pokemonDatabase.find(p => p.id === pokemon.id)
+				img.alt = `${basePokemon.name} ${pokemon.retro.toUpperCase()}`;
 				img.className = 'pc-pokemon-sprite';
 
 				// Add shiny and alpha classes
@@ -256,6 +257,7 @@ function openPokemonDetails(pokemon, pokemonIndex) {
 	// Set sprite
 	const spriteUrl = getPokemonSprite(pokemon.id, pokemon.isShiny, pokemon.retro);
 	document.getElementById('modalSprite').src = spriteUrl;
+	document.getElementById('modalSprite').alt = basePokemon.name;
 
 	// Set basic info - look up from database
 	document.getElementById('modalName').textContent = basePokemon.name;
