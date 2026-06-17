@@ -219,11 +219,25 @@ function canRetroSpriteCoverGen(retroName, pokemonGen) {
 
 // Get sprite path with retro applied
 function getRetroSpritePath(basePath, retro) {
-	if (retro === 'base' || !retro) {
-		return basePath;
-	}
+    if (retro === 'base' || !retro) {
+        return basePath;
+    }
 
-	// Replace 'base' folder with retro folder
-	// Example: 'sprites/pokemon/base/1.png' becomes 'sprites/pokemon/frlg/1.png'
-	return basePath.replace('/base/', `/${retro}/`);
+    // Change /base/ to the retro folder
+    let path = basePath.replace('/base/', `/${retro}/`);
+
+    // Extract the filename
+    const parts = path.split('/');
+    const filename = parts.pop();
+
+    // Split into number and extension
+    const [id, extension] = filename.split('.');
+
+    // Pad the ID to 3 digits
+    const paddedId = String(id).padStart(3, '0');
+
+    // Put the filename back together
+    parts.push(`${paddedId}.${extension}`);
+
+    return parts.join('/');
 }
